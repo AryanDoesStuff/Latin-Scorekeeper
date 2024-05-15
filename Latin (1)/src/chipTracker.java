@@ -13,7 +13,7 @@ public class chipTracker {
         System.out.print("Give the standard amount of betting on a player ");
         int std = scn.nextInt();
         System.out.println();
-        System.out.println("How many people will be at the bench at one time ");
+        System.out.print("How many people will be at the bench at one time ");
         int ppl = scn.nextInt();
         System.out.println();
         System.out.println("Will keep asking for names until STOP is entered case irrespective");
@@ -37,7 +37,7 @@ public class chipTracker {
         while (isGameActive) {
             Game game = new Game(std);
             System.out.println("Finding next participants --------");
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < ppl; i++) {
                 int random = (int)(Math.random() * personList.size());
                 while (played.contains(personList.get(random))) {
                     random = (int)(Math.random() * personList.size());
@@ -60,9 +60,10 @@ public class chipTracker {
                     int amt = scn.nextInt();
                     game.addWager(personList.get(personNames.indexOf(str.trim())), amt);
                     scn.nextLine();
-                } else if (n == 2) { // 2 - Winner, format: 2 *Winning Player*.
+                } else if (n == 2) { // 2 - Winner, format: 2 *Winning Player*. *Did they translate right*
                     String str = scn.nextLine();
-                    game.setWinner(personList.get(personNames.indexOf(str.trim())));
+                    String[] full = str.split(" ");
+                    game.setWinner(personList.get(personNames.indexOf(full[1])), full[2].equalsIgnoreCase("yes"));
                     isWinner = true;
                 }
             }
