@@ -7,6 +7,7 @@ public class Game {
     private final Map<Person, Person> nonPlayerWagers;
     private Person winner;
     private final int standardBettingAmount;
+    private boolean didWinFull;
 
     public Game(int standardBettingAmount) {
         wagers = new HashMap<>();
@@ -26,8 +27,9 @@ public class Game {
         nonBoardedPool += standardBettingAmount;
     }
 
-    public void setWinner(Person winner) {
+    public void setWinner(Person winner, boolean didWinFull) {
         this.winner = winner;
+        this.didWinFull = didWinFull;
     }
 
     public void accountForWagers() {
@@ -41,8 +43,13 @@ public class Game {
         }
 
         for (Map.Entry<Person, Person> m : nonPlayerWagers.entrySet()) {
-            if(m.getValue().equals( winner)) {
-                m.getKey().adjustChips(nonBoardedPool/cnt);
+            if(m.getValue().equals( winner) ) {
+                if (didWinFull) {
+                    m.getKey().adjustChips(nonBoardedPool/cnt);
+                } else {
+                    m.getKey().adjustChips((nonBoardedPool/cnt)/2);
+                }
+
             }
         }
     }
